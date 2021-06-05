@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+    proxy:
+        image: nginx
+        ports:
+            - 80:80
+        volumes:
+            - ./proxy/nginx.conf:/etc/nginx/nginx.conf
+        networks:
+            - common
+        depends_on:
+            - node16
+            - node14
+    node16:
+        hostname: node16.myapp.local
+        build:
+            context: .
+            dockerfile: node16.Dockerfile
+        networks:
+            - common
+    node14:
+        hostname: node14.myapp.local
+        build:
+            context: .
+            dockerfile: node14.Dockerfile
+        networks:
+            - common
+
+networks:
+    common:
